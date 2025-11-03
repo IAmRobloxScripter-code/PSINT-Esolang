@@ -316,6 +316,16 @@ void code_gen(node *node_value, std::string *out) {
     (*out) += "scanf(\" %c\", &(*c));";
     return;
   };
+  case kind::shift_front: {
+    (*out) += "h1 = m; h2 = d; h3 = s;";
+    (*out) += "m = h3; d = h1; s = h2;";
+    return;
+  }
+  case kind::shift_back: {
+    (*out) += "h1 = m; h2 = d; h3 = s;";
+    (*out) += "m = h2; d = h3; s = h1;";
+    return;
+  };
   default:
     funny_error();
     return;
@@ -340,7 +350,8 @@ int main(int argc, char **argv) {
       "static uint8_t d = 0; static uint8_t s = 0; static uint8_t* c = "
       "&m;\nstatic char* "
       "o; static uint64_t os = 0;\nint main() {\no = malloc(sizeof(char) * "
-      "2);\n";
+      "2);\nstatic uint8_t h1 = 0; static uint8_t h2 = 0; static uint8_t h3 = "
+      "0;\n";
 
   code_gen_body(parse(content), &aot);
   aot += "\nprintf(\"%s\\n\", o);\n}\n";
