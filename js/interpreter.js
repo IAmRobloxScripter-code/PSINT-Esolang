@@ -187,7 +187,9 @@ const run_instruction = async function (vm, ast) {
       }
     }
   } else if (node.kind === "print") {
-    vm.output += String.fromCharCode(vm.registers[vm.current_register]);
+    if (vm.registers[vm.current_register] != 0) { 
+      vm.output += String.fromCharCode(vm.registers[vm.current_register]);
+    }
   } else if (node.kind === "rotate_forward") {
     const A = vm.registers.mommas;
     const B = vm.registers.dad;
